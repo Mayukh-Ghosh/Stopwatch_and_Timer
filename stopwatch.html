@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Stopwatch</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    var hours = 0;
+    var minutes = 0;
+    var seconds = 0;
+    var milliseconds = 0;
+    var laps = [];
+
+    function startStopwatch() {
+      stopwatchInterval = setInterval(runStopwatch, 10);
+    }
+
+    function stopStopwatch() {
+      clearInterval(stopwatchInterval);
+    }
+
+    function runStopwatch() {
+      milliseconds += 10;
+      if (milliseconds == 1000) {
+        milliseconds = 0;
+        seconds += 1;
+      }
+      if (seconds == 60) {
+        seconds = 0;
+        minutes += 1;
+      }
+      if (minutes == 60) {
+        minutes = 0;
+        hours += 1;
+      }
+      updateStopwatch();
+    }
+
+    function updateStopwatch() {
+      document.getElementById("stopwatch").innerHTML =
+        (hours ? (hours > 9 ? hours : "0" + hours) : "00") +
+        ":" +
+        (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") +
+        ":" +
+        (seconds ? (seconds > 9 ? seconds : "0" + seconds) : "00") +
+        "." +
+        (milliseconds > 99 ? milliseconds : "0" + milliseconds);
+    }
+
+    function lapStopwatch() {
+      laps.push(
+        (hours ? (hours > 9 ? hours : "0" + hours) : "00") +
+        ":" +
+        (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") +
+        ":" +
+        (seconds ? (seconds > 9 ? seconds : "0" + seconds) : "00") +
+        "." +
+        (milliseconds > 99 ? milliseconds : "0" + milliseconds)
+      );
+      updateLaps();
+    }
+
+    function clearLaps() {
+      laps = [];
+      updateLaps();
+    }
+
+    function updateLaps() {
+      var lapsList = "";
+      for (var i = 0; i < laps.length; i++) {
+        lapsList += "<li>" + laps[i] + "</li>";
+      }
+      document.getElementById("laps").innerHTML = lapsList;
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Stopwatch</h1>
+    <div id="stopwatch">00:00:00.000</div>
+    <div class="btns">
+      <button id="btn1" onclick="startStopwatch()">Start</button>
+      <button id="btn1" onclick="stopStopwatch()">Stop</button>
+      <button id="btn1" onclick="lapStopwatch()">Lap</button>
+      <button id="btn1" onclick="clearLaps()">Clear Laps</button>
+    </div>
+  </div>
+  <h3>Laps</h3>
+  <ol id="laps"></ol>
+
+</body>
+
+</html>
