@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Timer with Reset Button</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        var minutes = 0;
+        var seconds = 0;
+        var timerInterval;
+
+        function startTimer() {
+            var inputMinutes = parseInt(
+                document.getElementById("inputMinutes").value
+            );
+            var inputSeconds = parseInt(
+                document.getElementById("inputSeconds").value
+            );
+            if (isNaN(inputMinutes)) {
+                inputMinutes = 0;
+            }
+            if (isNaN(inputSeconds)) {
+                inputSeconds = 0;
+            }
+            minutes = inputMinutes;
+            seconds = inputSeconds;
+            updateTimer();
+            timerInterval = setInterval(runTimer, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            minutes = 0;
+            seconds = 0;
+            updateTimer();
+        }
+
+        function runTimer() {
+            if (seconds == 0) {
+                if (minutes == 0) {
+                    stopTimer();
+                    alert("Time's up!");
+                } else {
+                    minutes -= 1;
+                    seconds = 59;
+                }
+            } else {
+                seconds -= 1;
+            }
+            updateTimer();
+        }
+
+        function updateTimer() {
+            document.getElementById("timer").innerHTML =
+                (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") +
+                ":" +
+                (seconds ? (seconds > 9 ? seconds : "0" + seconds) : "00");
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Timer</h1>
+        <div class="timeinput">
+            <label for="inputMinutes">Minutes:</label>
+            <input type="number" id="inputMinutes" name="inputMinutes" min="0" />
+            <br />
+            <label for="inputSeconds">Seconds:</label>
+            <input type="number" id="inputSeconds" name="inputSeconds" min="0" />
+            <br />
+        </div>
+        <div class="btns">
+            <button id="btn2" onclick="startTimer()">Start</button>
+            <button id="btn2" onclick="stopTimer()">Stop</button>
+            <button id="btn2" onclick="resetTimer()">Reset</button>
+        </div>
+        <div id="timer">00:00</div>
+    </div>
+</body>
+
+</html>
